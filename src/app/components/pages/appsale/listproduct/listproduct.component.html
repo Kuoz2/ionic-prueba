@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+      <div class="col-sm">
+          <input type="text" id="nombre" class="form-control"  placeholder="Nombre del producto" [(ngModel)]="nombre">
+      </div>
+      <div class="col-sm">
+          <input type="number" id="precio" class="form-control" placeholder="Precio del producto" [(ngModel)]="precio">
+      </div>
+      <div class="col-sm">
+          <button class="btn btn-primary" (click)="addCart({nombre:nombre, precio:precio, productoid:0})">Agregar</button>
+      </div>
+  </div>
+</div>
+
+<div class="container">
+      <div class="col-xs-4 col-md-6" *ngFor="let product of (producsqlite   | busquedapp:encontrandoApp  ); let i = index">
+          <div *ngIf="product.cantidad != 0">
+              <div *ngIf="i == 0">
+                  {{addCart(product) | async}}
+              </div>
+          </div>
+      </div>
+      <!-- segundo inventario -->
+
+</div>

@@ -1,0 +1,120 @@
+<!--
+<div class="container">
+
+    <div class="row">
+        <div class="col-xs-7 col-md-8 col-sm-8 col-lg-8">
+
+        </div>
+
+        <div class="col-xs-5 col-md-4 col-sm-4 col-lg-4">
+
+        </div>
+    </div>
+</div>
+-->
+
+
+<ng-template #content2 let-modal2>
+
+</ng-template>
+
+       <!--end shopping-cart-header -->
+
+        <div  class="input-group mb-3 flex-nowrap">
+       <!-- <div  class="input-group-prepend">
+            <select name="semarca" id="semarca"  (input)=_buscandoCategoria($event) class="form-control mr-sm-2 border border-primary  mdb-select md-form colorful-select dropdown-primary">
+                <option value="0" selected></option>
+                <option [ngValue]="i" *ngFor="let i of categorias" >{{i.cnombre}}</option>
+            </select>
+        </div>-->
+        <label class="input-group-text " for="busqueda"> <i class="fa fa-search-plus"></i></label>
+
+
+        </div>
+<div id="previewImg"></div>
+<ion-content [fullscreen]="true" class="ion-padding">
+
+<div class="card">
+    <div class="card-body">
+      <input class="form-control mr-sm-2 border border-primary"
+          type="text"
+          (click)="ProbandoCamara()"
+           placeholder="Buscar"
+           [(ngModel)]="articuloBusqueda"
+            aria-label="Search"  (input) = _buscadorProducto($event)  id="BusCodigo"  >
+    <form action="" [formGroup]="app_venta" (ngSubmit)="guardarVentaApp()">
+
+
+        <div class="modal-body">
+            <div class="shopping-cart-header">
+                <div class="shopping-cart-total">
+                    <span class="lighter-text">Total:</span>
+                    <span class="main-color-text" ><h2>${{totalPrice}}</h2></span>
+                </div>
+            </div>
+            <div class="form">
+                <div class="form-group">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let productos of items | paginate: {itemsPerPage:3, currentPage:p} ; let i = index" [attr.data-index]="i" >
+                            <tr>
+                      <!--  <tr *ngIf="productos.sinventario == true">-->
+                                <th>{{productos.id}}</th>
+                                <th>  {{productos.nombre}}</th>
+                                <th>  {{productos.quantity}}</th>
+                                <th>{{productos.precio}}
+                                    <button type="button" class="close" aria-label="close"> <span aria-hidden="true" (click)="remover_producto(productos)">&times;</span></button></th>
+                               <!-- <th><div class="qty-box1"><input type="number" name="descuento" id="descuento{{i}}" (change)="Descuento(productos, i)"> </div></th>-->
+                        </tr>
+
+                        </tbody>
+                        <pagination-controls (pageChange)="p = $event " previousLabel="Atras" nextLabel="Siguiente"></pagination-controls>
+
+                    </table>
+
+                </div>
+                <label for="loseleccionadodelacompra" class="mb-1">Forma de pago :</label>
+                <div class="input-group input-group-sm mb-3">
+                    <select  formControlName="loseleccionadodelacompra" class="custom-select mr-sm-2"  id="loseleccionadodelacompra" [value]="0">
+                        <option [ngValue]="0"></option>
+                        <option value="Tarjeta">Tarjeta</option>
+                        <option value="Efectivo">Efectivo</option>
+                        <!--<option [ngValue]="i" *ngFor="let i  of selecciondecomra" [selected]="0">{{i.mpnombre}}</option>-->
+                    </select>
+                </div>
+                <label> Efectivo:</label>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">$</span>
+                    </div>
+                    <input type="number" class="form-control" aria-label="Sizing example input" (keypress)="nosenvia($event)"  name="efectivo" id="efectivo" formControlName="efectivo">
+                </div>
+
+                <label> Devolución:</label>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm2">$</span>{{devolucion_app()}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"  >Guardar</button>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal"
+                            (click)="cancelar_venta()">Cancelar</button>
+                  <button type="button" class="oculto-impresion btn btn-success" (click)="imprimir('ticket')"> imprimir</button>
+                  <button type="button" class="btn btn-danger" (click)="scan()">Scaniar</button>
+               <!-- <button [useExistingCss]="true" printSectionId="ticket" type ="button" class="oculto-impresion btn btn-success" ngxPrint> imprimti</button>-->
+
+                </div>
+            </div>
+        </div>
+               </form>
+    </div>
+</div>
+</ion-content>

@@ -1,0 +1,7 @@
+<div class="container">
+  <app-appsale (textoCambiado)="textoapp = $event" (textoCambiado2)="categoriapp = $event"  ></app-appsale>
+</div>
+<div class="container">
+<app-listproduct [encontrandoApp]="textoapp" [encontrandoCategoriasApp]="categoriapp" ></app-listproduct>
+</div>
+

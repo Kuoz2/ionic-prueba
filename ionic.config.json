@@ -1,0 +1,8 @@
+{
+  "name": "multikart",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}

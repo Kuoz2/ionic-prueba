@@ -1,0 +1,105 @@
+<!-- Container-fluid starts-->
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+      <h5 class="modal-title f-w-600" id="exampleModalLabel">Agregar nueva categoría</h5>
+      <button type="button" class="close" aria-label="Close"
+          (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <form class="needs-validation" [formGroup]="categoriasForm" (ngSubmit)="guardarcategoria()">
+          <div class="form">
+              <div class="form-group">
+                  <label for="validationCustom01" class="mb-1">Nombre de la categoría :</label>
+                  <input class="form-control" formControlName="cnombre" id="validationCustom01" type="text" required>
+              </div>
+
+          </div>
+          <div class="modal-footer">
+              <button type="submit" class="btn btn-primary" >Guardar</button>
+              <button class="btn btn-secondary" type="button" data-dismiss="modal"
+                      (click)="modal.dismiss('Cross click')">Cerrar</button>
+          </div>
+      </form>
+  </div>
+</ng-template>
+
+  <ng-template #content2 let-modal2>
+      <div class="modal-header">
+          <h5 class="modal-title f-w-600" id="exampleModalLabel2">Editar categoría</h5>
+          <button type="button" class="close" aria-label="Close"
+                  (click)="modal2.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+              <div class="form">
+                  <div class="form-group">
+                      <label for="validationCustom012" class="mb-1">Nombre de la categoría :</label>
+                      <input class="form-control" [(ngModel)]="categoriaID.cnombre" id="validationCustom012" type="text" required>
+                  </div>
+
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" (click)="editarcategoria(categoriaID)" >Guardar</button>
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal"
+                          (click)="modal2.dismiss('Cross click')">Cerrar</button>
+              </div>
+      </div>
+
+</ng-template>
+<ion-content [fullscreen]="true" class="ion-padding">
+
+<div class="container" >
+  <div class="row">
+      <div class="col-sm-12">
+          <div class="card">
+
+              <div class="card-body">
+                  <div class="btn-popup pull-right">
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-original-title="test"
+                          data-target="#exampleModal" (click)="open(content)">Agregar categoría</button>
+                  </div>
+                  <div id="batchDelete" class="custom-datatable">
+                      <div class="table-responsive">
+                          <div class="container ">
+                              <div class="card">
+                                  <div class="card-header" >
+                                      <h3>Categorías</h3>
+                                  </div>
+                                  <div class="card-body" >
+                                      <table class="table table-bordered" >
+                                          <thead>
+                                          <tr>
+                                              <th>ID</th>
+                                              <th>Nombre</th>
+                                              <th>Gestionar</th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          <tr *ngFor="let category of (catsqlite |paginate: {itemsPerPage:5, currentPage:p}) " >
+                                              <td>{{category.id }}</td>
+                                              <td>{{category.cnombre  }}</td>
+                                              <td>
+                                                  <button  class="btn btn-warning" (click)="open2(content2, category)">Editar</button>
+                                              </td>
+                                          </tr>
+                                          </tbody>
+                                      </table>
+                                      <pagination-controls (pageChange)="p = $event " previousLabel="Atras" nextLabel="Siguiente"></pagination-controls>
+
+                                  </div>
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+</ion-content>

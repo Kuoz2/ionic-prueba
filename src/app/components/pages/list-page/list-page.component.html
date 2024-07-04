@@ -1,0 +1,156 @@
+<!-- Container-fluid starts-->
+<!--
+<ngx-spinner bdColor="rgba(0, 0, 0, 1)"
+             size="medium"
+             color="#000"
+             type="ball-scale-multiple">
+</ngx-spinner>
+<ng-template #content let-c="close" let-d="dismiss">
+
+    <div class="modal-content">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Formato XML</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+
+        </div>
+    <div class="modal-body">
+       <div id="EnvioLibro">
+    EnvioLibro ID="ID_LIBRO_"<br>
+        <div id="Caratula">
+        Caratula<br>
+        RutEmisorLibro <p>{{rutEmisor}}</p><br>
+        RutEnvia <p>{{rutEmisor}}</p> <br>
+        PeriodoTributario<p>{{fecha_tributaria}}</p><br>
+        FchReso <p>{{fecha_resolucion}}</p><br>
+        NroReso<p>{{numeroresolu}}</p><br>
+        TipoOperacion <p>VENTA</p><br>
+        TipoLibro<p>Libro de boletas</p><br>
+        TipoEnvio<p>{{tipodeDoc}}</p><br>
+        FolioNotificacion<p>{{Nfolionotificacion}}</p><br>
+        Caratula
+        </div>
+           <div id="ResumenPeriodo">
+            ResumenPeriodo<br>
+             TotalesPeriodo<br>
+                TpoDoc <p>39</p> <br>
+                TotDoc <p>{{cantidadDoc}}</p> <br>
+                TotMntExe <p>49241</p> <br>
+                TotMntNeto <p>{{valortotalneto}}</p> <br>
+                TotMntIVA <p>{{TotalValorIVA}}</p><br>
+                TotMntTotal <p>{{totalTodo}}</p> <br>
+             TotalesPeriodo<br>
+            ResumenPeriodo<br>
+           </div>
+               <div *ngFor="let o of cortar">
+                   <div id="detallebole" >
+        <Detalle><br>
+            <TpoDoc>39</TpoDoc> <br>
+             <NroDoc>10</NroDoc>  <br>
+            <TasaImp>19%</TasaImp> <br>
+            <FchDoc>{{o.fecha_emision}}</FchDoc> <br>
+            <RutEmi>{{rutEmisor}} </RutEmi> <br>
+             <TipoProd>{{ o.product.category.cnombre }}</TipoProd><br>
+             <RznSoc>{{rasonSoci}}</RznSoc><br>
+             <MntNeto>{{o.product.pvalor}}</MntNeto> <br>
+             <MntIVA>{{o.product.piva}}</MntIVA> <br>
+             <MntTotal>{{o.voucher.vtotal}}</MntTotal> <br>
+        </Detalle><br>
+               </div>
+               </div>
+
+         TmstFirma {{hora}}<br>
+    EnvioLibro<br>
+       </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="crearxml()">Generar XML</button>
+        </div>
+    </div>
+    </div>
+</ng-template>
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Vista archivo XML</button>
+<div class="form-group row">
+    <select class="form-control digits col-xl-8 col-sm-7" [(ngModel)]="tipodeDoc"  name="categorias" id="exampleFormControlSelect1" >
+        <option value="" selected>--- Tipo de libro ---</option>
+        <option value="Incompleto">Incompleto</option>
+        <option value="Completo">Completo</option>
+    </select>
+</div>
+<div class="form-group row">
+    <label for="fchareso" class="col-xl-3 col-sm-4 mb-0">Fecha resolución:</label>
+    <input class="form-control col-xl-8 col-sm-7" id="fchareso" type="date" min="2000/01/01" [(ngModel)]="fecha_resolucion"  autocomplete="off">
+</div>
+<div class="form-group row">
+    <label for="fchatributaria" class="col-xl-3 col-sm-4 mb-0">Fecha tributaria:</label>
+    <input class="form-control col-xl-8 col-sm-7" id="fchatributaria" type="date" min="2001/01/01" [(ngModel)]="fecha_tributaria"  autocomplete="off">
+</div>
+<div class="form-group row">
+    <label for="numeroresolu" class="col-xl-3 col-sm-4 mb-0">Número de resolución:</label>
+    <input class="form-control col-xl-8 col-sm-7" id="numeroresolu" type="number" [(ngModel)]="numeroresolu" required="" autocomplete="off">
+</div>
+<div class="form-group row">
+    <label for="Nfolionotificacion" class="col-xl-3 col-sm-4 mb-0">Número de folio:</label>
+    <input class="form-control col-xl-8 col-sm-7" id="Nfolionotificacion" type="number" [(ngModel)]="Nfolionotificacion" required="" autocomplete="off">
+</div>
+
+-->
+
+<div class="container">
+  <div class="row">
+      <div class="col-sm">
+          <div class="media-body col-8" *ngFor="let item of ventsho  | async">
+              <h3 class="mb-0">$ {{item.ventasdiaria}}<small> Ventas hoy</small></h3>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-sm-12">
+          <div class="card">
+              <div class="card-header">
+                  <h5>Ventas emitidas</h5>
+
+              </div>
+              <div class="card-body">
+                  <div class="custom-datatable">
+                      <table class="table table-hover">
+                          <thead>
+                          <tr >
+                              <th>
+                                  Nombre producto
+                              </th>
+                              <th>
+                                  Precio
+                              </th>
+                              <th>
+                                  Metodo de pago
+                              </th>
+                              <th>
+                                  Fecha
+                              </th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr *ngFor="let bl of (ventasemit | paginate: {id: 'paginacion',itemsPerPage:5, currentPage:p}) "  class="text-center">
+                              <td>{{bl.nombre|| bl.productoin}}</td>
+                              <td>{{bl.preciov}}</td>
+                              <td>{{bl.metodov}}</td>
+                              <td>{{bl.fechav}}</td>
+                              <td>{{bl.metodov}}</td>
+                          </tr >
+                          </tbody>
+                      </table>
+                      <pagination-controls (pageChange)="p = $event " previousLabel="Atras" nextLabel="Siguiente" id="paginacion"></pagination-controls>
+
+                  </div>
+                  <div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

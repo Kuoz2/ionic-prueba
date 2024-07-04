@@ -1,0 +1,17 @@
+
+<ion-header id="header"  >
+  <ion-toolbar>
+    <ng-container>
+    <!--  <ng-container >
+          <div class="alert alert-danger" role="alert" *ngFor="let item of resultado|paginate: {itemsPerPage:3, currentPage:p}">
+              Este preducto esta por vencer codigo: <b>{{item.codigo}}</b> con el nombre <b>{{item.nombre}}</b> vence en <b>{{item.vence_en}}</b> día/s
+            </div>
+      </ng-container>-->
+      <pagination-controls (pageChange)="p = $event " previousLabel="Atras" nextLabel="Siguiente"></pagination-controls>
+    </ng-container>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-router-outlet></ion-router-outlet>
+  </ion-content>

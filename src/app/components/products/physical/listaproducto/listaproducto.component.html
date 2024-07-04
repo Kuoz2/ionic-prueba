@@ -1,0 +1,458 @@
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+      <h5 class="modal-title f-w-600" id="exampleModalLabel">Exportar inventario en excel</h5>
+      <button type="button" class="close" aria-label="Close"
+          (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+          <div class="form">
+              <div class="form-group">
+                  <label for="validationCustom01" class="mb-1">Ingrese contraseña :</label>
+                  <input class="form-control" [(ngModel)]="contrasenia"  id="validationCustom01" type="text" >
+              </div>
+
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-primary" (click)="verificarpw(contrasenia)">Guardar</button>
+              <button class="btn btn-secondary" type="button"  data-dismiss="modal"
+                      (click)="modal.dismiss('Cross click')">Cerrar</button>
+          </div>
+  </div>
+</ng-template>
+<ng-template #content2 let-modal>
+  <div class="modal-header">
+
+  </div>
+  <div class="modal-body">
+      <div class="form">
+        <form [formGroup]="formsqlite" (submit)="actualizarregistro()" >
+          <div class="form-group row">
+              <label for="id" class="col-sm-2 col-form-label">Identificación</label>
+              <div class="col-sm-10">
+                <input type="text" readonly formControlName="id" class="form-control-plaintext" id="id" >
+              </div>
+            </div>
+          <div class="form-group row">
+              <label for="codigo" class="col-sm-2 col-form-label">Código</label>
+              <div class="col-sm-10">
+                <input type="text" readonly formControlName="pcodigo" class="form-control-plaintext" id="codigo" >
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="nombre" class="col-sm-2 col-form-label">Nombre producto</label>
+              <div class="col-sm-10">
+                <input type="text" formControlName="nombre" class="form-control" id="nombre" >
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="precio" class="col-sm-2 col-form-label">Precio</label>
+              <div class="col-sm-10">
+                <input type="text" formControlName="precio"  class="form-control" id="precio" >
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="precioiva" class="col-sm-2 col-form-label">Valor impuesto</label>
+              <div class="col-sm-10">
+                <input type="number" formControlName="precioiva" readonly class="form-control" id="precioiva" >
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="cantidad" class="col-sm-2 col-form-label">Cantidad</label>
+              <div class="col-sm-10">
+                <input type="number" formControlName="cantidad" class="form-control" id="cantidad" >
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="categoria" class="col-sm-2 col-form-label">Categoría</label>
+              <div class="col-sm-10">
+                <select type="text"  formControlName="categoryid" class="form-control-plaintext" id="categoria"  reqyuired>
+                  <option value="0"  selected></option>
+                  <option [ngValue]="i" *ngFor="let i of categorysqlite " >{{i.cnombre}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="fecha"  class="col-sm-2 col-form-label">Fecha</label>
+              <div class="col-sm-10">
+                <input type="date" formControlName="fechavenci" class="form-control-plaintext" id="fecha" >
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn  btn-primary">Guardar</button>
+
+          </div>
+        </form>
+
+      </div>
+
+  </div>
+
+</ng-template>
+
+
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-sm-12">
+          <div class="card">
+              <div class="card-header">
+                  <h5>Inventario</h5>
+              </div>
+              <label for="businventario">Buscar</label>
+              <input type="text" class="form-control" id="codigo" placeholder="Buscar por código del producto" (click)="ProbandoCamara()"
+              [(ngModel)]="buscarinventario">
+              <div class="card-body">
+                  <hr>
+                  <div class="container">
+                      <div class="row">
+
+                          <div class="col">
+                              <button type="button" class="btn btn-success" (click)="open(content,2)" >Exportar todo el inventario</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div>
+
+                  </div>
+                  <hr>
+                  <table class="table table-hover" id="table3">
+                      <thead>
+                      <tr class="text-center">
+
+                       <!--<th>Costo</th>
+                          <th>Précio</th>
+                          <th>Margen</th>
+                          <th>Utilidad</th>
+                          <th>Stock</th>
+                          <th>Fecha vencimiento</th>
+                          <th>Estado</th>-->
+                          <th>ID</th>
+                          <th>Código</th>
+                          <th>Nombre</th>
+                          <th>Categoría</th>
+                          <th>Precio</th>
+                          <th>Disponibles</th>
+                          <th>Valor iva</th>
+                          <th>Fecha</th>
+                      </tr>
+                      </thead>
+                      <tbody id="tbody3">
+                      <tr *ngFor="let p of (inventariorecoleccion |buscareninventario:buscarinventario ) | paginate: {id:'pagination3',itemsPerPage:10, currentPage:j} ; let i=index"   class="text-center" id="tr3" >
+                          <ng-container  >
+
+                         <!-- <td><input type="checkbox" id="sanos{{i}}" [value]="p|json" (click)="almacenar(p, i)" ></td>-->
+                           <td>{{p.id}}</td>
+                          <td>{{p.pcodigo}}</td>
+                          <td >{{p.nombre}}</td>
+                          <td>{{p.cnombre}}</td>
+                          <td>{{p.precio}}</td>
+                          <td>{{p.cantidad}}</td>
+                          <td>{{p.precioiva}}</td>
+                          <td>{{p.fechavenci}}</td>
+                          <td><button type="button" class="btn btn-warning" (click)="open2(content2, p)">Editar</button></td>
+                         <!-- <td id="td111">{{p.pcodigo  }}</td>
+                          <td id="td222">{{p.category.cnombre}}/{{p.pdescripcion}}</td>
+                          <td>{{p.precio_provider}}</td>
+                          <td >{{p.pvalor}}</td>
+                          <td>{{p.margen}}</td>
+                          <td>{{p.utilidad}}</td>-->
+                     <!--     <td id="td444">{{p.stock.pstock}}</td> -->
+                   <!--       <td [attr.id]="'peligro' + i + j "  >{{cambiarColorSinStock(p.stock.pstock,i, j)}} </td>-->
+                     <!--     <td><button (click)="eliminarproducto(p)">Eliminar</button></td>-->
+                          </ng-container>
+                      </tr>
+                      </tbody>
+                  </table>
+                  <div>
+                  </div>
+                  <pagination-controls (pageChange)="j = $event" previousLabel="Atras" nextLabel="Siguiente" id="pagination3"></pagination-controls>
+
+              </div>
+             <!-- <ngb-tabset justify="fill">
+                  <ngb-tab>
+                      <ng-template ngbTabTitle><b>Inventario</b> sin stock</ng-template>
+                      <ng-template ngbTabContent>
+                          <div id="batchDelete" class="category-table custom-datatable">
+                              <div class="table-responsive">
+                                  <div class="container ">
+                                      <div class="card">
+                                          <div class="card-header">
+                                              <h3>Inventario sin stock</h3>
+                                          </div>
+                                          <div class="card-body">
+                                              <table class="table table-hover" id="table3">
+                                                  <thead>
+                                                  <tr class="text-center">
+                                                      <th>
+                                                          Código del producto
+                                                      </th>
+                                                      <th>
+                                                          Nombre descriptivo
+                                                      </th>
+                                                      <th>Costo</th>
+                                                      <th>Précio</th>
+                                                      <th>Margen</th>
+                                                      <th>Utilidad</th>
+                                                      <th>Stock</th>
+                                                      <th>Fecha vencimiento</th>
+                                                      <th>Estado</th>
+                                                  </tr>
+                                                  </thead>
+                                                  <tbody id="tbody3">
+                                                  <tr *ngFor="let p of (listproductosG | async| inventariopeligro |buscareninventario:buscarinventario ) | paginate: {id:'pagination3',itemsPerPage:10, currentPage:j} ; let i=index"  (dblclick)="open2(content2, p)" class="text-center" id="tr3" >
+                                                      <td id="td111">{{p.pcodigo  }}</td>
+                                                      <td id="td222">{{p.category.cnombre}}/{{p.pdescripcion}}</td>
+                                                      <td>{{p.precio_costo}}</td>
+                                                      <td id="td333">{{p.pvalor}}</td>
+                                                      <td>{{p.margen}}</td>
+                                                      <td>{{p.utilidad}}</td>
+                                                      <td id="td444">{{p.stock.pstock}}</td>
+                                                      <td>{{p.date_expiration.fecha_vencimiento}}</td>
+                                                      <td [attr.id]="'peligro' + i + j "  >{{cambiarColorSinStock(p.stock.pstock,i, j)}}</td>
+                                                  </tr>
+                                                  </tbody>
+                                              </table>
+                                              <pagination-controls (pageChange)="j = $event" previousLabel="Atras" nextLabel="Siguiente" id="pagination3"></pagination-controls>
+                                          </div>
+                                      </div>
+                                      <div class="card">
+                                          <div class="card-header">
+                                              <h3>Segundo inventario sin stock</h3>
+                                          </div>
+                                          <div class="card-body">
+                                              <table class="table table-hover" id="table3">
+                                                  <thead>
+                                                  <tr class="text-center">
+                                                      <th>Fecha vencimiento</th>
+                                                      <th>Código producto</th>
+                                                      <th>Categoría y marca</th>
+                                                      <th>Nombre descriptivo</th>
+                                                      <th>Precio</th>
+                                                      <th>Margen</th>
+                                                      <th>Utilidad</th>
+                                                      <th>Stock</th>
+                                                  </tr>
+                                                  </thead>
+                                                  <tbody id="tbody3">
+                                                  <tr *ngFor="let l of (tomanuevoinventario | inventariosinstock2 |buscareninventario:buscarinventario  ) | paginate: {id:'pagination8',itemsPerPage:10, currentPage:n} ; let i=index"   class="text-center" >
+                                                      <td >{{l.fecha_vencimiento  }}</td>
+                                                          <td >{{l.product.pcodigo}}</td>
+                                                          <td >{{l.product.category.cnombre}}/{{l.product.brand.bnombre}}</td>
+                                                          <td >{{l.product.pdescripcion}}</td>
+                                                          <td>{{l.product.pvalor}}</td>
+                                                          <td>{{l.product.margen}}</td>
+                                                          <td>{{l.product.utilidad}}</td>
+                                                          <td>{{l.stock_expiration}}</td>
+                                                  </tr>
+                                                  </tbody>
+                                              </table>
+                                              <pagination-controls (pageChange)="n = $event" previousLabel="Atras" nextLabel="Siguiente" id="pagination8"></pagination-controls>
+
+                                          </div>
+                                      </div>
+                                  </div>
+
+                              </div>
+                          </div>
+                      </ng-template>
+                  </ngb-tab>
+                  <ngb-tab>
+                      <ng-template ngbTabTitle><b>Inventario</b> en gestion</ng-template>
+                      <ng-template ngbTabContent>
+                          <div class="table-responsive">
+                              <div class="container ">
+                                  <div class="card">
+                                      <div class="card-header">
+                                          <h3>Inventario en gestión</h3>
+                                      </div>
+                                      <div class="card-body">
+                                          <table class="table table-hover" id="table2">
+                                              <thead>
+                                              <tr class="text-center">
+                                                  <th>
+                                                      Código del producto
+                                                  </th>
+                                                  <th>
+                                                      Nombre descriptivo
+                                                  </th>
+                                                  <th>Précio</th>
+                                                  <th>Margen</th>
+                                                  <th>Utilidad</th>
+                                                  <th>Stock</th>
+                                                  <th>Estado</th>
+                                                  <th>Fecha vencimiento</th>
+                                              </tr>
+                                              </thead>
+                                              <tbody id="tbody2">
+                                              <tr *ngFor="let p of (listproductosG |async| inventarioGestion |buscareninventario:buscarinventario ) | paginate: {id:'pagination2',itemsPerPage:10, currentPage:d} ; let i=index  " (dblclick)="open2(content2, p)" class="text-center" id="tr2">
+                                                  <td id="td11">{{p.pcodigo  }}</td>
+                                                  <td id="td22">{{p.category.cnombre}}/{{p.pdescripcion}}</td>
+                                                  <td id="td33">{{p.pvalor}}</td>
+                                                  <td>{{p.margen}}</td>
+                                                  <td>{{p.utilidad}}</td>
+                                                  <td id="td44">{{p.stock.pstock}}</td>
+                                                  <td>{{p.date_expiration.fecha_vencimiento}}</td>
+                                                  <td [attr.id]="'gestionar' + i + d "  >{{cambiarColorGestion(p.stock.pstock,i, d)}}</td>
+                                                  <td>{{p.id}}</td>
+
+                                              </tr>
+                                              </tbody>
+                                          </table>
+                                          <pagination-controls (pageChange)="d = $event" previousLabel="Atras" nextLabel="Siguiente" id="pagination2"></pagination-controls>
+
+                                      </div>
+                                  </div>
+                                  <div class="card">
+                                      <div class="card-header">
+                                          <h3>Segundo inventario en gestión</h3>
+                                      </div>
+                                      <div class="card-body">
+                                          <table class="table table-hover" id="table2">
+                                              <thead>
+                                              <tr class="text-center">
+                                                  <th>Fecha vencimiento</th>
+                                                  <th>Código producto</th>
+                                                  <th>Categoría y marca</th>
+                                                  <th>Nombre descriptivo</th>
+                                                  <th>Precio</th>
+                                                  <th>Margen</th>
+                                                  <th>Utilidad</th>
+                                                  <th>Stock</th>
+                                              </tr>
+                                              </thead>
+                                              <tbody >
+                                              <tr *ngFor="let x of (tomanuevoinventario | inventariogestion2 |buscareninventario:buscarinventario) | paginate: {id:'pagination7',itemsPerPage:20, currentPage:k} ; let i=index  " >
+                                                  <td >{{x.fecha_vencimiento  }}</td>
+                                                  <td >{{x.product.pcodigo}}</td>
+                                                  <td >{{x.product.category.cnombre}}/{{x.product.brand.bnombre}}</td>
+                                                  <td >{{x.product.pdescripcion}}</td>
+                                                  <td>{{x.product.pvalor}}</td>
+                                                  <td>{{x.product.margen}}</td>
+                                                  <td>{{x.product.utilidad}}</td>
+                                                  <td>{{x.stock_expiration}}</td>
+                                              </tr>
+                                              </tbody>
+                                          </table>
+                                          <pagination-controls (pageChange)="k = $event" previousLabel="Atras" nextLabel="Siguiente" id="pagination7"></pagination-controls>
+
+                                      </div>
+                                  </div>
+
+                              </div>
+                          </div>
+                      </ng-template>
+                  </ngb-tab>
+                  <ngb-tab>
+                      <ng-template ngbTabTitle><b>Inventario</b> en estado sano</ng-template>
+                      <ng-template ngbTabContent>
+                          <div class="table-responsive">
+                              <div class="container ">
+                                  <div class="card">
+                                      <div class="card-header">
+                                          <h3>Inventario sano</h3>
+                                      </div>
+                                      <div class="card-body">
+                                          <table class="table table-hover" id="table1">
+                                              <thead>
+                                              <tr class="text-center">
+                                                  <th>Seleccionar</th>
+                                                  <th>
+                                                      Código del producto
+                                                  </th>
+                                                  <th>
+                                                      Nombre descriptivo
+                                                  </th>
+                                                  <th>Précio</th>
+                                                  <th>Margen</th>
+                                                  <th>Utilidad</th>
+                                                  <th>Stock</th>
+                                                  <th>Estado</th>
+                                                  <th>Fecha vencimiento</th>
+                                              </tr>
+                                              </thead>
+                                              <tbody id="tbody1">
+                                              <ng-container *ngFor="let p of (listproductosG  |async |inventarionsano |buscareninventario:buscarinventario ) | paginate: {id:'pagination1',itemsPerPage: 30, currentPage:h}; let i=index; " >
+                                                  <tr  class="text-center" id="tr1" (dblclick)="open2(content2, p)" >
+                                                      <ng-container *ngIf="p.stock.pstock >= 10">
+                                                          <td><input type="checkbox" id="sanos{{i}}" [value]="p|json" (click)="almacenar(p, i)" ></td>
+                                                          <td >{{p.pcodigo  }}</td>
+                                                          <td >{{p.category .cnombre}}/{{p.pdescripcion}}</td>
+                                                          <td >{{p.pvalor}}</td>
+                                                          <td>{{p.margen}}</td>
+                                                          <td>{{p.utilidad}}</td>
+                                                          <td id="td4">{{p.stock.pstock}}</td>
+                                                          <td>{{p.date_expiration.fecha_vencimiento}}</td>
+                                                          <td [attr.id]="'estado' + i + h">{{cambiadColor(p.stock.pstock, i, h)}}</td>
+                                                          <td>{{p.id}}</td>
+                                                          <td><button (click)="eliminarproducto(p)">Eliminar</button></td>
+
+                                                      </ng-container>
+
+                                                  </tr>
+                                              </ng-container>
+                                              </tbody>
+                                              <div>
+                                                  <button (click)="exportar_excel_table()">Exportar a excel</button>
+                                              </div>
+                                          </table>
+                                          <pagination-controls (pageChange)="h = $event" previousLabel="Atras" nextLabel="Siguiente" id="pagination1"></pagination-controls>
+
+                                      </div>
+                                  </div>
+                                  <div class="card">
+                                      <div class="card-header">
+                                          <h3>Segundo inventario sano</h3>
+                                      </div>
+                                      <div class="card-body">
+                                          <table class="table table-hover" >
+                                              <thead>
+                                              <tr class="text-center">
+                                                  <th>Fecha vencimiento</th>
+                                                  <th>Código producto</th>
+                                                  <th>Categoría y marca</th>
+                                                  <th>Nombre descriptivo</th>
+                                                  <th>Precio</th>
+                                                  <th>Margen</th>
+                                                  <th>Utilidad</th>
+                                                  <th>Stock</th>
+                                              </tr>
+                                              </thead>
+                                              <tbody >
+                                              <ng-container  *ngFor="let u of (tomanuevoinventario    |inventariosano2 |buscareninventario:buscarinventario ) | paginate: {id:'pagination5',itemsPerPage:10, currentPage:g}; let i=index "  >
+                                                  <tr  class="text-center"  >
+                                                      <ng-container *ngIf="u.cantidad_cambiadas >= 10">
+                                                          <td >{{u.fecha_vencimiento  }}</td>
+                                                          <td >{{u.product.pcodigo}}</td>
+                                                          <td >{{u.product.category.cnombre}}/{{u.product.brand.bnombre}}</td>
+                                                          <td >{{u.product.pdescripcion}}</td>
+                                                          <td>{{u.product.pvalor}}</td>
+                                                          <td>{{u.product.margen}}</td>
+                                                          <td>{{u.product.utilidad}}</td>
+                                                          <td>{{u.stock_expiration}}</td>
+                                                      </ng-container>
+                                                  </tr>
+                                              </ng-container>
+                                              </tbody>
+                                          </table>
+                                          <pagination-controls (pageChange)="g = $event" previousLabel="Atras" nextLabel="Siguiente" id="pagination5"></pagination-controls>
+                                      </div>
+                                  </div>
+                                  <div>
+                                  </div>
+                              </div>
+                          </div>
+                      </ng-template>
+                  </ngb-tab>
+              </ngb-tabset>-->
+
+                  </div>
+              </div>
+          </div>
+      </div>
+
+</ion-content>
